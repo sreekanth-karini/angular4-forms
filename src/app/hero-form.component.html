@@ -1,0 +1,71 @@
+<div class="container">
+	
+	<div [hidden]="submitted">
+	    <h1>Hero Form</h1>
+	    <form #heroForm="ngForm">
+	      <div class="form-group">
+	        <label for="name">Name</label>
+	        <input type="text" class="form-control" id="name" required
+	        	minlength="5"
+	        [(ngModel)]="model.name" name="name" #validateName="ngModel">
+	      </div>
+
+			<!-- <div [hidden]="validateName.valid || validateName.pristine"
+			     class="alert alert-danger">
+			  Name is required..
+			</div> -->
+		<div *ngIf="validateName.invalid" class="alert alert-danger">
+			<p *ngIf="validateName.errors.required">Name is required..</p>
+			<p *ngIf="validateName.errors.minlength">
+				Enter minimum5 chars..
+			</p>
+		</div>
+
+	      <div class="form-group">
+	        <label for="designation">Designation</label>
+	        <select class="form-control" id="designation" required 
+	        	[(ngModel)]="model.designation" name="designation">
+	        	<option *ngFor="let d of designation" [value]="">{{d}}</option>
+	        </select>
+	      </div>
+
+	      <div class="form-group">
+	        <label for="email">Email</label>
+	        <input type="email" class="form-control" id="email"
+	        [(ngModel)]="model.email" name="email" required #validateEmail="ngModel">
+	      </div>
+			
+			<div [hidden]="validateEmail.valid || validateEmail.pristine"
+			     class="alert alert-danger">
+			  Email is required..
+			</div>
+	    </form>
+
+	    <button type="submit" class="btn btn-success" 
+	    	(click)="onSubmit()"
+	    	[disabled]="!heroForm.form.valid">Submit</button>
+		<button class="btn btn-default" 
+			(click)="createNewHero();heroForm.reset()">New Hero</button>
+	</div>
+
+    <div [hidden]="!submitted">
+	  <h2>You submitted the following:</h2>
+	  <div class="row">
+	    <div class="col-xs-3">Name</div>
+	    <div class="col-xs-9  pull-left">{{ model.name }}</div>
+	  </div>
+	  <div class="row">
+	    <div class="col-xs-3">Designation</div>
+	    <div class="col-xs-9 pull-left">{{ model.designation }}</div>
+	  </div>
+	  <div class="row">
+	    <div class="col-xs-3">Email</div>
+	    <div class="col-xs-9 pull-left">{{ model.email }}</div>
+	  </div>
+	  
+	  <button type="button" class="btn btn-success" (click)="submitted = flase">		Edit Hero</button>
+	</div>
+</div>
+
+
+
